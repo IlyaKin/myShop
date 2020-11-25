@@ -16,7 +16,7 @@ public class RoleService {
             this.roleRepository=roleRepository;
         }
 
-        public Role getByName(String name) throws RoleNotFoundException {
+        public Role getByName(String name) {
             Optional<Role> roleOptional=roleRepository.findByName(name);
 
             if(roleOptional.isPresent()){
