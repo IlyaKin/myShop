@@ -5,6 +5,7 @@ import com.geekbrains.controllers.dto.UserType;
 import com.geekbrains.entities.Role;
 import com.geekbrains.entities.User;
 import com.geekbrains.exceptions.ManagerIsEarlierThanNeedException;
+import com.geekbrains.exceptions.RoleNotFoundException;
 import com.geekbrains.exceptions.UnknownUserTypeException;
 import com.geekbrains.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class UserService {
         }else if (userDto.getUserType().equals(UserType.USER)){
             return saveTypicallyUser(userDto);
         }
-        throw new UnknownUserTypeException();
+        throw new RoleNotFoundException(String.format("Роль с именем %s не найдена", userDto.getUserType()));
     }
 
     private User saveTypicallyUser(UserDto userDto) {

@@ -14,7 +14,7 @@ public class ExceptionHandlerImpl {
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(exception.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exception.getBindingResult().getFieldErrors().stream().map(e->e.getDefaultMessage()), HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> methodArgumentNotFoundException(NotFoundException exception) {
