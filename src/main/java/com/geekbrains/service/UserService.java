@@ -14,10 +14,10 @@ import java.util.List;
 
 @Service
 public class UserService {
-    public final UserRepository userRepository;
-    public final RoleService roleService;
+    private final UserRepository userRepository;
+    private final RoleService roleService;
 
-    public Role role;
+    private Role role;
 
     public UserService(UserRepository userRepository, RoleService roleService){
         this.userRepository=userRepository;
