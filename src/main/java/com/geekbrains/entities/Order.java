@@ -1,13 +1,17 @@
 package com.geekbrains.entities;
 
 
+import lombok.Data;
 import org.hibernate.annotations.Cascade;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
+@Data
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,13 +19,18 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userOrders;
+    private User user;
 
     @OneToMany(mappedBy = "order")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<OrderItem> items;
+    private String phoneNumber;
 
-    private String phone;
     private String address;
+    private BigDecimal price;
+    private Status status;
 
+    public enum Status{
+        MANAGING, DELIVERING, DELIVERED
+    }
 }
