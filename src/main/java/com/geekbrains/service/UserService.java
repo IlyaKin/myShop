@@ -7,6 +7,7 @@ import com.geekbrains.entities.User;
 import com.geekbrains.exceptions.ManagerIsEarlierThanNeedException;
 import com.geekbrains.exceptions.RoleNotFoundException;
 import com.geekbrains.exceptions.UnknownUserTypeException;
+import com.geekbrains.exceptions.UserNotFoundException;
 import com.geekbrains.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,4 +75,8 @@ public class UserService {
         return user;
     }
 
+    public User findById(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(()->new UserNotFoundException(String.format("Пользователь с идентификавтором %s не найден", id)));
+    }
 }
