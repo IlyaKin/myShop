@@ -5,16 +5,20 @@ import com.geekbrains.controllers.dto.UserType;
 import com.geekbrains.entities.Role;
 import com.geekbrains.entities.User;
 import com.geekbrains.exceptions.ManagerIsEarlierThanNeedException;
+import com.geekbrains.exceptions.RoleNotFoundException;
 import com.geekbrains.exceptions.UnknownUserTypeException;
 import com.geekbrains.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
-    public final UserRepository userRepository;
-    public final RoleService roleService;
+    private final UserRepository userRepository;
+    private final RoleService roleService;
+
+    private Role role;
 
     public UserService(UserRepository userRepository, RoleService roleService){
         this.userRepository=userRepository;
@@ -26,21 +30,25 @@ public class UserService {
     }
 
     public List<User> getAllUsersWithType(UserType userType) {
-        return userRepository.findAllByroles(userType);
+        if(userType == UserType.MANAGER){
+            role = roleService.getByName("ROLE_MANAGER");
+        } else if (userType == UserType.USER){
+            role = roleService.getByName("ROLE_CUSTOMER");
+        }return userRepository.findAllByroles(role);
     }
 
-    public User saveUser(UserDto userDto){
+    public User saveUser(UserDto userDto) {
         if (userDto.getUserType().equals(UserType.MANAGER)){
-            saveManager(userDto);
+            return saveManager(userDto);
         }else if (userDto.getUserType().equals(UserType.USER)){
-            saveTypicallyUser(userDto);
+            return saveTypicallyUser(userDto);
         }
-        throw new UnknownUserTypeException();
+        throw new RoleNotFoundException(String.format("Роль с именем %s не найдена", userDto.getUserType()));
     }
 
     private User saveTypicallyUser(UserDto userDto) {
         User user=createUserFromDto(userDto);
-        Role role = roleService.getByName("ROLE_USER");
+        Role role = roleService.getByName("ROLE_CUSTOMER");
         user.setRoles(List.of(role));
         return userRepository.save(user);
     }
