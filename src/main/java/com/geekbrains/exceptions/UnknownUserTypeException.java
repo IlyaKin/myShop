@@ -3,10 +3,14 @@ package com.geekbrains.exceptions;
 import lombok.Getter;
 
 @Getter
-public class UnknownUserTypeException extends NotFoundException{
+public class UnknownUserTypeException extends RuntimeException{
     private String message;
 
-    public UnknownUserTypeException(String message){
-        super(message);
-         }
+    public UnknownUserTypeException() {
+        this.message = "Неизвестный тип пользователя.";
+    }
+
+    public UnknownUserTypeException(String message) {
+        this.message = message;
+    }
 }
