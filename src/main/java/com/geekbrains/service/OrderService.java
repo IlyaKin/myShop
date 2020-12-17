@@ -2,15 +2,20 @@ package com.geekbrains.service;
 
 import com.geekbrains.entities.Order;
 import com.geekbrains.entities.OrderItem;
+import com.geekbrains.entities.User;
 import com.geekbrains.repository.OrderItemRepository;
 import com.geekbrains.repository.OrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.geekbrains.entities.Order.Status.MANAGING;
+
 @Service
 public class OrderService {
+
     private final OrderRepository orderRepository;
     private final CartService cartService;
     private final UserService userService;
@@ -19,32 +24,31 @@ public class OrderService {
     public OrderService(OrderRepository orderRepository,
                         CartService cartService,
                         UserService userService,
-                        OrderItemRepository orderItemRepository){
+                        OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.userService = userService;
         this.orderItemRepository = orderItemRepository;
     }
-    public void saveOrder(){
+
+    public void saveOrder() {
+        User user = userService.findById(1L);
+
         Order order = new Order();
         order.setItems(cartService.getItems());
         order.setAddress(cartService.getAddress());
         order.setPhoneNumber(cartService.getPhone());
-        order.setUser(userService.findById(1L));
+        order.setUser(user);
         order.setPrice(cartService.getPrice());
+        order.setStatus(MANAGING);
+        order.setPhoneNumber(user.getPhone());
 
         final Order savedOrder = orderRepository.save(order);
-        List<OrderItem> orderItems = order.getItems().stream().peek(orderItem -> orderItem.setOrder(savedOrder))
-                .collect(Collectors.toList());
-        orderItemRepository.saveAll(orderItems);
     }
 
-
-    public List<Order> getByUserId(long userId){
+    @Transactional
+    public List<Order> getByUserId(long userId) {
         return orderRepository.findAllByUserId(userId);
     }
 
-    public void deleteItem(String title) {
-        orderItemRepository.deleteByProductTitle(title);
-    }
 }

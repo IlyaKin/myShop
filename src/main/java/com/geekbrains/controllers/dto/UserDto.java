@@ -7,16 +7,16 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UserDto {
 
+    @NotNull(message = "Телефон пользователя не может быть пустым.")
+    private String phone;
+    @NotNull(message = "Пароль не может быть пустым.")
+    private String password;
     private String firstName;
     private String lastName;
-    @NotNull(message = "Поле Пароль не может быть пустым")
-    private String password;
-    @NotNull(message = "Поле Телефон не может быть пустым")
-    private String phone;
     private String email;
-    @NotNull(message = "Возраст пользователя не может быть пустым")
+    @NotNull(message = "Возраст пользователя должен быть не пустым.")
     private Integer age;
-    @NotNull(message = "Не выбран тип пользователя")
+    @NotNull(message = "Тип пользователя не указан.")
     private RoleDto roleDto;
-
 }
+
