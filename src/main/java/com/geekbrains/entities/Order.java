@@ -27,7 +27,7 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name =  "item_id"))
     private List<OrderItem> items;
-    private String phoneNumber;
+    private double phoneNumber;
 
     private String address;
     private BigDecimal price;

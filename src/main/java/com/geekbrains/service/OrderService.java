@@ -1,5 +1,6 @@
 package com.geekbrains.service;
 
+import com.geekbrains.aspect.Log;
 import com.geekbrains.entities.Order;
 import com.geekbrains.entities.OrderItem;
 import com.geekbrains.entities.User;
@@ -30,18 +31,17 @@ public class OrderService {
         this.userService = userService;
         this.orderItemRepository = orderItemRepository;
     }
-
+    @Log
     public void saveOrder() {
         User user = userService.findById(1L);
 
         Order order = new Order();
         order.setItems(cartService.getItems());
         order.setAddress(cartService.getAddress());
-        order.setPhoneNumber(cartService.getPhone());
+        order.setPhoneNumber(cartService.getPhoneNumber());
         order.setUser(user);
         order.setPrice(cartService.getPrice());
         order.setStatus(MANAGING);
-        order.setPhoneNumber(user.getPhone());
 
         final Order savedOrder = orderRepository.save(order);
     }

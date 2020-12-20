@@ -5,7 +5,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 
-public class AbstractView extends VerticalLayout {
+public abstract class AbstractView extends VerticalLayout {
     protected TextField initTextFieldWithPlaceholder(String placeholder){
         TextField textField = new TextField();
         textField.setPlaceholder(placeholder);

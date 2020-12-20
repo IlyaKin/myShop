@@ -1,5 +1,6 @@
 package com.geekbrains.frontend;
 
+import com.geekbrains.aspect.Log;
 import com.geekbrains.entities.Order;
 import com.geekbrains.service.OrderService;
 import com.vaadin.flow.component.Component;

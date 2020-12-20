@@ -15,7 +15,7 @@ public class CartService {
     private List<OrderItem> items;
     private BigDecimal price;
     private String address;
-    private String phone;
+    private double phone;
 
     public List<OrderItem> getItems() {
         return items;
@@ -41,11 +41,11 @@ public class CartService {
         this.address = address;
     }
 
-    public String getPhone() {
+    public double getPhoneNumber() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhoneNumber(double phone) {
         this.phone = phone;
     }
 
