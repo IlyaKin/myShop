@@ -1,12 +1,16 @@
 package com.geekbrains.exceptions;
 
+import lombok.Getter;
+
+@Getter
 public class UnknownUserTypeException extends RuntimeException{
     private String message;
 
-    public UnknownUserTypeException(){
+    public UnknownUserTypeException() {
         this.message = "Неизвестный тип пользователя.";
     }
-    public UnknownUserTypeException(String message){
-        this.message=message;
+
+    public UnknownUserTypeException(String message) {
+        this.message = message;
     }
 }
